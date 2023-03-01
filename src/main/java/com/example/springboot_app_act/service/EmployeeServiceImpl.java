@@ -1,7 +1,7 @@
 package com.example.springboot_app_act.service;
 
 import org.springframework.stereotype.Service;
-import com.example.springboot_app_act.dao.EmployeeDAO;
+import com.example.springboot_app_act.dao.EmployeeRepo;
 import com.example.springboot_app_act.entity.Employee;
 import com.example.springboot_app_act.exceptions.EmployeeException;
 
@@ -11,49 +11,49 @@ import java.util.List;
 @Service
 public class EmployeeServiceImpl implements EmployeeService{
 
-    private EmployeeDAO employeeDAO;
+    private EmployeeRepo employeeRepo;
 
-    public EmployeeServiceImpl(EmployeeDAO employeeDAO) {
-        this.employeeDAO = employeeDAO;
+    public EmployeeServiceImpl(EmployeeRepo employeeRepo) {
+        this.employeeRepo = employeeRepo;
     }
 
     @Override
     @Transactional
     public List<Employee> getEmployeesService() {
-        return employeeDAO.getEmployeesDAO();
+        return employeeRepo.findAll();
     }
 
     @Override
     @Transactional
     public Employee getEmployeeByIdService(int id) {
-        Employee employee = employeeDAO.getEmployeeByIdDAO(id);
-        if (employee == null) {
-        throw new EmployeeException("Person with id = " + id + " doesn't exist");
-            }
-        return employee;
+        Employee employee = (Employee) employeeRepo.findById(id).get();
+//        if (employee == null) {
+//        throw new EmployeeException("Person with id = " + id + " doesn't exist");
+//            }
+        return (Employee) employeeRepo.findById(id).get();
     }
 
     @Override
     @Transactional
     public void addEmployeeService(Employee employee) {
         employee.setId(null);
-        employeeDAO.addEemployeeDAO(employee);
+        employeeRepo.save(employee);
     }
 
     @Override
     @Transactional
     public void updateEmployeeService(Employee employee) {
-        employeeDAO.updateEmployeeDAO(employee);
+        employeeRepo.save(employee);
     }
 
     @Override
     @Transactional
     public void deleteEmployeeService(int id) {
-        Employee employee = employeeDAO.getEmployeeByIdDAO(id);
-        if (employee == null) {
-            throw new EmployeeException("Person with id = " + id + " doesn't exist");
-        }
+//        Employee employee = employeeRepo.deleteById(id);
+//        if (employee == null) {
+//            throw new EmployeeException("Person with id = " + id + " doesn't exist");
+//        }
 
-        employeeDAO.deleteEmployeeDAO(id);
+        employeeRepo.deleteById(id);
     }
 }
