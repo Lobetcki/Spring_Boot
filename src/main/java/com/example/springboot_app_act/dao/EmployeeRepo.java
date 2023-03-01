@@ -5,8 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface EmployeeRepo extends JpaRepository {
+public interface EmployeeRepo extends JpaRepository<Employee, Integer> {
 
-    List<Employee> findAllByNameRepo(String name);
+    List<Employee> findAllByName(String name);
 
 }
